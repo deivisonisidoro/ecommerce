@@ -1,7 +1,3 @@
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
-
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Order = use('App/Models/Order');
 
@@ -23,6 +19,9 @@ class OrderController {
 
   async show ({ params}) {
     const order = await Order.find(params.id)
+    await order.load('user', builder => {
+      builder.select(['id', 'username',])
+    })
     return order
   }
   async update ({ params, request }) {
@@ -34,7 +33,8 @@ class OrderController {
   }
   async destroy ({ params}) {
     const order = await Order.find(params.id)
-    await order.delete()
+
+    await order.delete() 
   }
 }
 

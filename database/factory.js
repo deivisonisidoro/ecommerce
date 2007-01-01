@@ -32,14 +32,25 @@ Factory.blueprint('App/Models/Token', (faker, i, data = {}) => {
   };
 
 });
-/*Factory.blueprint('App/Models/Order',async (faker, i, data = {})=>{
+
+Factory.blueprint('App/Models/Product', (faker, i, data = {}) => {
+  return {
+    name: faker.name(),
+    type: faker.string(),
+    description: faker.paragraph(),
+    price:faker.string(),
+    ...data,
+  };
+
+});
+Factory.blueprint('App/Models/Order', (faker, i, data = {})=>{
   return {
 
-    zipcode: faker.string({ length: 20 }),
+    zipcode: faker.string(),
     street: faker.name(),
-    number: faker.string({ length: 20 }),
+    number: faker.string(),
     city: faker.name(),
     state: faker.name(),
     ...data,
   };
-})*/
+})

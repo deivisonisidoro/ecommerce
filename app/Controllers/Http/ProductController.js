@@ -3,7 +3,7 @@ const Product = use('App/Models/Product')
 
 class ProductController {
  
-  async index ({request, view}) {
+  async index ({request}) {
     const { page =1} = request.get()
     const product = await Product.query()
     .paginate(page , 10);
@@ -12,10 +12,10 @@ class ProductController {
     
     //return view.render('products', {product: products.toJSON() })
   
-  async store ({ request}) {
-    const data = request.only(["name", "type", "description"])
+  async store ({ request, response}) {
+    const data = request.only(["name", "type", "description", "price"])
     const product = await Product.create(data)
-    return product 
+    return response.status(201).json(product)
   }
 
   async show ({ params}) {

@@ -18,7 +18,7 @@ test('it should return JTW token when session created', async ({
   await Factory.model('App/Models/User').create(sessionPayLoad);
 
   const response = await client
-    .post('/authenticate')
+    .post("/authenticate")
     .send({
       email: 'deivison@gmail.com',
       password: '123456',

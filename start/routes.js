@@ -14,19 +14,28 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route');
 
-Route.post('/register', 'AuthController.register').validator('Create');
-Route.post('/authenticate', 'AuthController.authenticate').validator('Auth')
 
-Route.post('/forgot', 'ForgotPasswordController.store').validator('Forgot');
-Route.post('/reset', 'ResetPasswordController.store').validator('Reset');
-
-/*Route.group(()=>{
-    Route.get('/order', 'OrderController.index')
-    Route.post('/order', 'OrderController.store')
-})*/
 Route.group(()=>{
+    Route.post('/store', 'UserController.register').validator('Create');
+    Route.resource('/User', 'UserController').apiOnly()
+})
+
+    Route.post('/authenticate', 'AuthController.authenticate').validator('Auth')
+    Route.post('/forgot', 'ForgotPasswordController.store').validator('Forgot');
+    Route.post('/reset', 'ResetPasswordController.store').validator('Reset');
+
+
+
+Route.group(()=>{
+   
     Route.resource('/order', 'OrderController').apiOnly()
 })
+
+Route.group(()=>{ 
+    Route.put('/upload/:id', 'UploadController.update')
+    Route.resource("/product", "ProductController").apiOnly()
+})
+
 Route.group(()=>{
-    Route.resource("products", "ProductController").apiOnly()
+    Route.post("/files", "ProductController.store")
 })

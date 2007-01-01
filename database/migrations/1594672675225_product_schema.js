@@ -5,6 +5,7 @@ class ProductSchema extends Schema {
   up() {
     this.create('products', (table) => {
       table.increments();
+      table.string('product_img')
       table.string('name').notNullable();
       table.string('type').notNullable();
       table.text('description').notNullable();
