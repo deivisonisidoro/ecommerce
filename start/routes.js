@@ -19,3 +19,6 @@ const Route = use('Route')
 Route.post('/register', 'AuthController.register')
 Route.post('/authenticate', 'AuthController.authenticate')
 
+Route.post('/forgot', 'ForgotPasswordController.store')
+Route.post('/reset', 'ResetPasswordController.store')
+
