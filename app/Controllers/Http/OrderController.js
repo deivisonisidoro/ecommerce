@@ -15,7 +15,7 @@ class OrderController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response, view }) {}
+  async index({ request, resp onse, view }) {}
 
   /**
    * Render a form to be used for creating a new order.
