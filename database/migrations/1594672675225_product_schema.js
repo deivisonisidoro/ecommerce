@@ -7,7 +7,7 @@ class ProductSchema extends Schema {
       table.increments();
       table.string('name').notNullable();
       table.string('type').notNullable();
-      table.string('description').notNullable();
+      table.text('description').notNullable();
       table.string('price').notNullable();
       table.timestamps();
     });

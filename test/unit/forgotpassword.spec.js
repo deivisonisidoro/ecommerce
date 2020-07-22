@@ -1,6 +1,6 @@
 const { test, trait } = use('Test/Suite')('Forgot');
 
-const { subHours, format } = require('date-fns');
+const { subHours, format, subMinutes } = require('date-fns');
 
 const Mail = use('Mail');
 const Hash = use('Hash');
@@ -72,7 +72,6 @@ test('it connot reset password after 2h of forgot password request', async ({
   await user.tokens().save(userToken);
 
   const dateWithSub = format(subHours(new Date(), 2), 'yyyy-MM-dd HH:ii:ss');
-  console.log(dateWithSub);
 
   await Database.table('tokens')
     .where('token', userToken.token)

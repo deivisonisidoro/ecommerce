@@ -2,83 +2,40 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-/**
- * Resourceful controller for interacting with orders
- */
+/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
+const Order = use('App/Models/Order');
+
 class OrderController {
-  /**
-   * Show a list of all orders.
-   * GET orders
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async index({ request, resp onse, view }) {}
+  async index({}){
+    const order =  await Order.query().with("user", builder => {
+      builder.select(['id', 'username',])
+    }).fetch()
+    return order;
+  }
 
-  /**
-   * Render a form to be used for creating a new order.
-   * GET orders/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create({ request, response, view }) {}
+  async store({ request, response }) {
+    const data = request.only(['user_id','zipcode','street','number','city','state'])
+    
+    const order = await Order.create(data)
 
-  /**
-   * Create/save a new order.
-   * POST orders
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async store({ request, response }) {}
+    return response.status(201).json(order)
+  }
 
-  /**
-   * Display a single order.
-   * GET orders/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show({ params, request, response, view }) {}
-
-  /**
-   * Render a form to update an existing order.
-   * GET orders/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit({ params, request, response, view }) {}
-
-  /**
-   * Update order details.
-   * PUT or PATCH orders/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update({ params, request, response }) {}
-
-  /**
-   * Delete a order with id.
-   * DELETE orders/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy({ params, request, response }) {}
+  async show ({ params}) {
+    const order = await Order.find(params.id)
+    return order
+  }
+  async update ({ params, request }) {
+    const data = request.only(['user_id','zipcode','street','number','city','state'])
+    const order = await Order.find(params.id)
+    order.merge(data)
+    await order.save()
+    return order
+  }
+  async destroy ({ params}) {
+    const order = await Order.find(params.id)
+    await order.delete()
+  }
 }
 
 module.exports = OrderController;
